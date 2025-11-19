@@ -1,0 +1,200 @@
+{
+  "name": "emailchatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d591858a-b9da-49ee-bd50-e7bf99cf2df1",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        -128
+      ],
+      "id": "24aab17a-55cf-4925-b2bb-d40a727485fe",
+      "name": "Webhook",
+      "webhookId": "d591858a-b9da-49ee-bd50-e7bf99cf2df1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\n {{ $json.body.emailquerry }}",
+        "options": {
+          "systemMessage": "Your job is to listen to what the user says, convert it into a clear question, and call the emailquery tool.\nDo not ask for any email address.\nAfter the tool runs, politely say something like:\n“✅ I’ve received your question. I’ll take care of it.”\nIf something fails, say: “❌ Sorry, something went wrong.”{\n  \"question\": \"I want to schedule a meeting tomorrow.\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -144,
+        -128
+      ],
+      "id": "0e5150fa-7383-40f3-a47b-ed9f33daf452",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        80
+      ],
+      "id": "6949a2b1-8d66-43f1-ba23-4bd48b49a782",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "4bQp9QSTpDv30Tpr",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        208,
+        -128
+      ],
+      "id": "f422e0fd-3ea4-4d5a-8c13-e5207e8e2996",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "sendTo": "raiusmanr517@gmail.com",
+        "subject": "Hello",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        80,
+        48
+      ],
+      "id": "373af874-553d-42b2-8cd3-ce60a44c6eb4",
+      "name": "Send a message in Gmail",
+      "webhookId": "755d897b-b37f-4d21-80ab-b920e290d9c7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gm70jP4dxuZh1NP6",
+          "name": "Gmail account 5"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "queen-12.app.n8n.cloud",
+            "user-agent": "ElevenLabs/1.0",
+            "content-length": "90",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "34.59.11.47",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "995baf5ef06514df-DUB",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.59.11.47, 162.158.6.32",
+            "x-forwarded-host": "queen-12.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-63-757945c69-8hs9x",
+            "x-is-trusted": "yes",
+            "x-real-ip": "34.59.11.47"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "emailquerry": "The user wants to know when they can get an appointment from your boss."
+          },
+          "webhookUrl": "https://queen-12.app.n8n.cloud/webhook-test/d591858a-b9da-49ee-bd50-e7bf99cf2df1",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "AI Agent": [
+      {
+        "json": {
+          "output": "❌ Sorry, something went wrong."
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0c4c2382-4658-4a46-a882-eff7b026fcc7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1d20a8f28c999d803d1d6f48512a396c70ba155e36eed54c72cf656b8e757dd4"
+  },
+  "id": "Rc22r8cSQASNgFCw",
+  "tags": []
+}
