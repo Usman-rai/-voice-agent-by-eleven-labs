@@ -1,6 +1,6 @@
 # AI Email Chatbot – Automated Inquiry Responder (n8n Workflow)
 AI-powered email chatbot built with n8n that responds to user queries through email, provides detailed information about our platform, and automatically forwards personal queries to the correct team member.
-# AI Email Chatbot – Automated Inquiry Responder (n8n Workflow)
+# AI Email Chatbot
 
 This project is an **AI-powered email chatbot** built using **n8n**, **OpenAI**, and email automation tools.  
 It allows users to send questions through a website form or email, and the system automatically:
