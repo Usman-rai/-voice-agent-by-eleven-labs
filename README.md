@@ -1,4 +1,4 @@
-# -voice-agent-by-eleven-labs
+# AI Email Chatbot – Automated Inquiry Responder (n8n Workflow)
 AI-powered email chatbot built with n8n that responds to user queries through email, provides detailed information about our platform, and automatically forwards personal queries to the correct team member.
 # AI Email Chatbot – Automated Inquiry Responder (n8n Workflow)
 
